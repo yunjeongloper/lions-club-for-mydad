@@ -1,95 +1,86 @@
-import React, { useState } from 'react';
-import styled, { keyframes, css } from "styled-components";
+import React, { useState, useEffect } from 'react';
+import styled, { css } from "styled-components";
+import emblem from '../../assets/images/emblem.png';
 
 const Navigation = () => {
     const [toggled, setToggled] = useState<boolean>(false);
 
+    useEffect(() => {
+      console.log(localStorage);
+    });
+
     return (
         <NavigationContainer>
-            <Logo>
-                LOGO
+            <Logo href="#" >
+              <img src={emblem} style={{margin: '3px 5px 0 0', width: 100}} />
             </Logo>
             <ResponsibleLinks toggled={toggled}>
-                <span></span>
                 <MainLinks>
                     <MainLink1>
                         <Link1Title href="#">
                           국제라이온스협회
                         </Link1Title>
-                        {/* <Stripe style={{ left: left }} /> */}
-                        <Link1Desc>
-                            <ul>
-                                <li>
-                                    <a>라이온스란?</a>
-                                </li>
-                                <li>
-                                    <a>창시자 및 라이온스 연혁</a>
-                                </li>
-                                <li>
-                                    <a>슬로건과 모토</a>
-                                </li>
-                            </ul>
-                        </Link1Desc>
+                          <Link1Dropdown>
+                            <SubMenuLink>라이온스란?</SubMenuLink>
+                            <SubMenuLink>창시자 및 라이온스 연혁</SubMenuLink>
+                            <SubMenuLink>슬로건과 모토</SubMenuLink>
+                          </Link1Dropdown>
                     </MainLink1>
-
                     <MainLink2>
-                        <Link2Title href="#">
+                        <Link2Title href="#" >
                           356-D지구밀알
                         </Link2Title>
-                        <Link2Desc>
-                            <ul>
-                                <li>
-                                    <a>D1</a>
-                                </li>
-                                <li>
-                                    <a>D2</a>
-                                </li>
-                                <li>
-                                    <a>D3</a>
-                                </li>
-                            </ul>
-                        </Link2Desc>
+                        <Link2Dropdown >
+                          <ul>
+                              <li>
+                                  <SubMenuLink>D1</SubMenuLink>
+                              </li>
+                              <li>
+                                  <SubMenuLink>D2</SubMenuLink>
+                              </li>
+                              <li>
+                                  <SubMenuLink>D3</SubMenuLink>
+                              </li>
+                          </ul>
+                        </Link2Dropdown>
                     </MainLink2>
-
                     <MainLink3>
-                        <Link3Title href="#">
+                        <Link3Title href="#" >
                           지구소식
                         </Link3Title>
-                        <Link3Desc>
-                            <ul>
-                                <li>
-                                    <a>날짜</a>
-                                </li>
-                                <li>
-                                    <a>장소</a>
-                                </li>
-                                <li>
-                                    <a>어쩌구</a>
-                                </li>
-                            </ul>
-                        </Link3Desc>
+                        <Link3Dropdown>
+                          <ul>
+                              <li>
+                                  <SubMenuLink>날짜</SubMenuLink>
+                              </li>
+                              <li>
+                                  <SubMenuLink>장소</SubMenuLink>
+                              </li>
+                              <li>
+                                  <SubMenuLink>어쩌구</SubMenuLink>
+                              </li>
+                          </ul>
+                        </Link3Dropdown>
                     </MainLink3>
-
                     <MainLink4>
-                        <Link4Title href="#">
+                        <Link4Title href="#" >
                           커뮤니티
                         </Link4Title>
-                        <Link4Desc>
+                        <Link4Dropdown >
                             <ul>
                                 <li>
-                                    <a>갤러리</a>
+                                    <SubMenuLink>갤러리</SubMenuLink>
                                 </li>
                             </ul>
-                        </Link4Desc>
+                        </Link4Dropdown>
                     </MainLink4>
                 </MainLinks>
-                <AuthLinks>
-                    <AuthLink>회원가입</AuthLink>
-                    <AuthLink>로그인</AuthLink>
-                </AuthLinks>
             </ResponsibleLinks>
+            <AuthLink href='http://localhost:3000/kakao'>
+              <AuthText>로그인</AuthText>
+            </AuthLink>
             <ResponsibleHamburger>
-                <button onClick={() => setToggled(!toggled)}>
+                <button onClick={() => {setToggled(!toggled); console.log(toggled)}}>
                     Ham
                 </button>
             </ResponsibleHamburger>
@@ -98,7 +89,7 @@ const Navigation = () => {
 }
 
 interface IResponsibleLinksProps {
-    toggled: boolean
+  toggled: boolean
 }
 
 const NavigationContainer = styled.div`
@@ -106,9 +97,10 @@ const NavigationContainer = styled.div`
   display: flex;
   flex-direction: row;
   color: white;
+  padding: 20px 30px;
 `;
 
-const Logo = styled.span`
+const Logo = styled.a`
   align-self: center;
 `;
 
@@ -117,100 +109,108 @@ const MainLinks = styled.ul`
   flex-direction: row;
 `;
 
-// const Stripe = styled.div`
-//   width: 200px;
-//   height: 10px;
-//   background: blue;
-//   position: absolute;
-//   bottom: 0;
-//   transition: left 0.3s;
-// `;
-
-// const MainLink = styled.li`
-//   margin: 10px;
-// `;
-
-const MainLink1 = styled.li`
-  margin: 10px;
-`;
-const Link1Title = styled.a`
+const LinkTitle = styled.a`
   color: white;
+  font-weight: bold;
   text-decoration: none;
+  font-size: 20px;
+  padding-bottom: 10px;
+  &::after {
+    margin-top: 10px;
+    content: '';
+    display: block;
+    width: 0;
+    height: 4px;
+    background: #0a3dab;
+    transition: width .3s;
+  }
 `;
-const Link1Desc = styled.div`
-  position: absolute;
-  display: none;
 
+const MainLink = styled.li`
+  margin-left: 2em;
+  margin-right: 2em;
+  &:hover ${LinkTitle} {
+    color: #f9c910;
+  }
+  &:hover ${LinkTitle}::after {
+    width: 100%;
+  }
+`;
+
+const SubMenuLink = styled.a`
+  display: block;
+  margin-bottom: 10px;
+  transition: font-size 0.1s ease-out;
+  &:hover {
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: bold;
+  }
+`;
+
+const LinkDropdown = styled.div`
+  position: relative;
+  display: none;
+  margin-top: 15px;
   opacity: 1;
   transition: opacity 0.3s ease-out;
+`;
 
-  ${MainLink1}:hover & {
+const Link1Title = styled(LinkTitle)``;
+const Link1Dropdown = styled(LinkDropdown)``;
+const MainLink1 = styled(MainLink)`
+  width: 180px;
+  margin-right: 0px;
+  &:hover ${Link1Dropdown} {
     display: block;
-    // opacity: 1;
   }
 `;
 
-const MainLink2 = styled.li`
-  margin: 10px;
+const Link2Title = styled(LinkTitle)``;
+const Link2Dropdown = styled(LinkDropdown)``;
+const MainLink2 = styled(MainLink)`
+  &:hover ${Link2Dropdown} {
+    display: block;
+  }
 `;
-const Link2Title = styled.a`
+
+const Link3Title = styled(LinkTitle)``;
+const Link3Dropdown = styled(LinkDropdown)``;
+const MainLink3 = styled(MainLink)`
+  &:hover ${Link3Dropdown} {
+    display: block;
+  }
+`;
+
+const Link4Title = styled(LinkTitle)``;
+const Link4Dropdown = styled(LinkDropdown)``;
+const MainLink4 = styled(MainLink)`
+  &:hover ${Link4Dropdown} {
+    display: block;
+  }
+`;
+
+const AuthLink = styled.a`
+  position: absolute;
+  right: 30px;
+  padding: 15px;
+  width: 120px;
+  margin-top: 30px;
+  background-color: #0a3dab;
+  border-radius: 10px;
+  text-align: center;
+`;
+
+const AuthText = styled.span`
   color: white;
   text-decoration: none;
-`;
-const Link2Desc = styled.div`
-  position: absolute;
-  display: none;
-
-  ${MainLink2}:hover & {
-    display: block;
-  }
-`;
-
-const MainLink3 = styled.li`
-  margin: 10px;
-`;
-const Link3Title = styled.a`
-  color: white;
-  text-decoration: none;
-`;
-const Link3Desc = styled.div`
-  position: absolute;
-  display: none;
-
-  ${MainLink3}:hover & {
-    display: block;
-  }
-`;
-
-const MainLink4 = styled.li`
-  margin: 10px;
-`;
-const Link4Title = styled.a`
-  color: white;
-  text-decoration: none;
-`;
-const Link4Desc = styled.div`
-  position: absolute;
-  display: none;
-
-  ${MainLink4}:hover & {
-    display: block;
-  }
-`;
-
-const AuthLinks = styled.ul`
-  display: flex;
-  flex-direction: row;
-`;
-
-const AuthLink = styled.li`
-  margin: 10px;
+  font-weight: bold;
+  font-family: Noto Sans KR;
 `;
 
 const ResponsibleHamburger = styled.div`
   display: none;
   z-index: 2000;
-
   @media (max-width: 900px) {
     display: flex;
     flex: 1;
@@ -219,12 +219,12 @@ const ResponsibleHamburger = styled.div`
 `;
 
 const ResponsibleLinks = styled.div<IResponsibleLinksProps>`
-  flex: 1;
   display: flex;
-  flex-direction: row;
+  position: absolute;
+  margin-top: 43px;
+  margin-left: 130px;
   justify-content: space-between;
   align-items: center;
-
   @media (max-width: 900px) {
     display: none;
     ${props => props.toggled && css`
@@ -236,11 +236,12 @@ const ResponsibleLinks = styled.div<IResponsibleLinksProps>`
       justify-content: flex-end;
       background-color: black;
       padding-top: 30px;
+      margin-top: -20px;
     `}
     & > ul {
       display: ${({toggled}) => toggled? 'block' : 'flex'};
     }
-    & ${Link1Desc}, ${Link2Desc}, ${Link3Desc}, ${Link4Desc} {
+    & ${Link1Dropdown}, ${Link2Dropdown}, ${Link3Dropdown}, ${Link4Dropdown} {
       position: relative;
     }
   }

@@ -8,7 +8,7 @@ export const theme = {
         mainBrand: '#876351' /* Shadow */,
         darkShade: '#252423' /* Shark */,
         darkAccent: '#ac7742' /* Cape Palliser */,
-        primary: '#282c34' /* Shadow */,
+        primary: '#112e57' /* Shadow */,
         info: '#232525' /* Shark */,
         success: '#5e9850' /* Fruit Salad */,
         warning: '#db8818' /* Zest */,
